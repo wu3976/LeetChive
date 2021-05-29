@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+LeetChive
+{% endblock %}
+
+{% block bodycontent %}
+    <div id="d1">
+    <ol class="questionList">
+    <li v-for="p in problems" v-html="getLink(p)"></li>
+    </ol>
+    </div>
+{% endblock %}

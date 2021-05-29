@@ -1,0 +1,56 @@
+.MainHeader {
+    font-weight: bold;
+    font-size: 25px;
+    font-family: Arial, serif;
+    color: #478012;
+}
+
+.logo {
+    height: 30px;
+    width: 30px;
+}
+
+.hidden {
+    display: none;
+}
+
+.header {
+    color: #6bbb96;
+    font-family: Arial, serif;
+    font-size: 20px;
+}
+
+.text {
+    font-family: Arial, serif;
+    font-size: 12px;
+}
+
+.codeArea {
+    background-color: black;
+    color: white;
+}
+
+.__buttonUp {
+    border: solid 1px #4e6817;
+    background-color: antiquewhite;
+    color: cadetblue;
+}
+
+.__buttonDown {
+    border: solid 1px #4e6817;
+    background-color: #c6c6c6;
+    color: cadetblue;
+}
+
+.hint {
+    font-family: Menlo, serif;
+}
+
+.testcases {
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+
+.code {
+    font-family: Courier, serif;
+}

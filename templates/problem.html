@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ context.problemName }}
+{% endblock %}
+
+{% block bodycontent %}
+    <span id="pID" class="hidden">{{ context.pID }}</span>
+    <div id="d1">
+        <div class="header">{{ context.displayedName }}</div>
+        <p class="text">{{ context.promptHtml|safe }}</p>
+        <textarea v-model.lazy="msg" class="codeArea" id="t1" rows="30" cols="80"></textarea><br>
+        [[ msg ]]
+        <button v-bind:class="submitButtonClass" v-on:click="clickSubmit">Submit</button>
+        <button v-bind:class="hintButtonClass" v-on:click="clickHint">Hint</button>
+        <table class="testcases">
+            <tr v-for="testCase in testCases" v-html="genRow(testCase)"></tr>
+        </table>
+        <div class="hint">
+            <pre>[[ hint ]]</pre>
+        </div>
+    </div>
+{% endblock %}

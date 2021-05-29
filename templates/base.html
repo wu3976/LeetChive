@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='vue.js') }}"></script>
+</head>
+<body>
+<div class="MainHeader" id="m0">
+    <img class="logo" src="{{ url_for('static', filename='favicon.ico') }}" alt="">LeetChive
+</div>
+<hr class="horiDivider">
+{% block bodycontent %}{% endblock %}
+<script type="text/javascript" src="{{ url_for('static', filename='headerscript.js') }}"></script>
+<script type="text/javascript" src="{{ context.scriptPath }}"></script>
+</body>
+</html>
