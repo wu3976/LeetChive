@@ -17,18 +17,36 @@ var d1 = new Vue({
         hintButtonClass: "__buttonUp",
         testCases: [],
         msg: "",
-        hint: ""
+        hint: "",
+        pID: ""
     },
     methods: {
         clickSubmit(event) {
             console.log("submit"); // TODO: handle click submit event
         },
         clickHint(event) {
-            console.log("hint"); // TODO: handle click hint event
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("GET", `/api/getHint/${this.pID}`);
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4 && xhttp.status === 200){
+                    this.hint = xhttp.responseText;
+                }
+            };
+            xhttp.send();
         },
         genRow(testCase) {
             return `xxx`; // TODO: write this function
         }
+    },
+    created() {
+        this.pID = document.getElementById("pID").innerText;
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("GET", `/api/getStarterCode/${this.pID}`);
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState === 4 && xhttp.status === 200){
+                this.msg = xhttp.responseText;
+            }
+        };
+        xhttp.send();
     }
-    // TODO: add created property which fetch msg (initial code) from DB.
 });

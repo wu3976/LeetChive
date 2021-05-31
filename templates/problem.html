@@ -10,7 +10,6 @@
         <div class="header">{{ context.displayedName }}</div>
         <p class="text">{{ context.promptHtml|safe }}</p>
         <textarea v-model.lazy="msg" class="codeArea" id="t1" rows="30" cols="80"></textarea><br>
-        [[ msg ]]
         <button v-bind:class="submitButtonClass" v-on:click="clickSubmit">Submit</button>
         <button v-bind:class="hintButtonClass" v-on:click="clickHint">Hint</button>
         <table class="testcases">

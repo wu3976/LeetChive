@@ -7,7 +7,7 @@ LeetChive
 {% block bodycontent %}
     <div id="d1">
     <ol class="questionList">
-    <li v-for="p in problems" v-html="getLink(p)"></li>
+    <li v-for="(p, i) in problems" v-html="getLink(p, i)"></li>
     </ol>
     </div>
 {% endblock %}
