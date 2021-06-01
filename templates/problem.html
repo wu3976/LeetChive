@@ -13,7 +13,7 @@
         <button v-bind:class="submitButtonClass" v-on:click="clickSubmit">Submit</button>
         <button v-bind:class="hintButtonClass" v-on:click="clickHint">Hint</button>
         <table class="testcases">
-            <tr v-for="testCase in testCases" v-html="genRow(testCase)"></tr>
+            <tr class="row" v-for="testCase in testCases" v-html="genRow(testCase)"></tr>
         </table>
         <div class="hint">
             <pre>[[ hint ]]</pre>

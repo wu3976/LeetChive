@@ -1,14 +1,16 @@
-import pymysql, json
+import pymysql, json, time, os
 from flask import Flask, render_template, url_for, request
 from db_ops import db_prep, db_add_problem, db_fetch_problems, \
     db_fetch_problem, db_fetch
-from config import host, port, dbhost, dbuser, dbpwd
+from config import host, port, dbhost, dbuser, dbpwd, submit_dirname
 
 app = Flask(__name__)
 
 db = pymysql.connect(host=dbhost, user=dbuser, password=dbpwd, autocommit=True)
 cur = db.cursor()
 db_prep(cur)
+
+submit_path = os.path.join(os.getcwd(), submit_dirname)
 
 '''db_add_problem(
     cur=cur,
@@ -89,6 +91,29 @@ def add_problem():
     db_add_problem(cur, prob["problemName"], prob["displayedName"],
                    prob["promptHtml"], prob["starterCode"], prob["hint"])
     return "OK.&nbsp;<a href=\"/\">Main page</a>"
+
+
+@app.route('/api/submit/<int:pID>', methods=['POST'])
+def submitSolution(pID: int):
+    fpath = os.path.join(submit_path, "{}_{}.cpp".format(pID, time.time()))
+    file = open(fpath, "w+")
+    file.write(request.get_data().decode('utf-8'))
+    file.close()
+    resp = [
+        {
+            "case": "test case",
+            "correct": "aabbaa",
+            "user": "aabaa",
+            "status": "failed"
+        },
+        {
+            "case": "test case 2",
+            "correct": "blyat",
+            "user": "blyat",
+            "status": "success"
+        }
+    ]
+    return json.dumps(resp)
 
 
 if __name__ == '__main__':

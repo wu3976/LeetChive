@@ -46,6 +46,14 @@
     font-family: Menlo, serif;
 }
 
+.row {
+    border: solid 1px black;
+}
+
+.cell {
+    border: solid 1px black;
+}
+
 .testcases {
     border-collapse: collapse;
     border: 2px solid black;

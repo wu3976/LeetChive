@@ -15,6 +15,12 @@ var d1 = new Vue({
     data: {
         submitButtonClass: "__buttonUp",
         hintButtonClass: "__buttonUp",
+        // [{
+        //  "case": xxx,
+        //  "correct": xxx,
+        //  "user": xxx,
+        //  "success": True/False
+        // },...]
         testCases: [],
         msg: "",
         hint: "",
@@ -22,7 +28,14 @@ var d1 = new Vue({
     },
     methods: {
         clickSubmit(event) {
-            console.log("submit"); // TODO: handle click submit event
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", `/api/submit/${this.pID}`);
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4 && xhttp.status === 200){
+                    this.testCases = JSON.parse(xhttp.responseText);
+                }
+            };
+            xhttp.send(this.msg);
         },
         clickHint(event) {
             let xhttp = new XMLHttpRequest();
@@ -35,7 +48,11 @@ var d1 = new Vue({
             xhttp.send();
         },
         genRow(testCase) {
-            return `xxx`; // TODO: write this function
+            let html = ``, ks = Object.keys(testCase)
+            for (let i = 0; i < ks.length; i++){
+                html += `<td class="cell">${testCase[ks[i]]}</td>`
+            }
+            return html;
         }
     },
     created() {

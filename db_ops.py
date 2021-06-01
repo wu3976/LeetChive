@@ -1,10 +1,10 @@
 from pymysql.connections import Cursor
-from config import DBNAME, dbhost, dbuser, dbpwd
+from config import dbname, dbhost, dbuser, dbpwd
 
 
 def db_prep(cur: Cursor) -> None:
-    cur.execute("create database if not exists {};".format(DBNAME))
-    cur.execute("use {};".format(DBNAME))
+    cur.execute("create database if not exists {};".format(dbname))
+    cur.execute("use {};".format(dbname))
     print(cur.fetchall())
     cur.execute(
         "create table if not exists problems({pID}, {problemName}, {displayedName}, {promptHtml}, {primaryKey});".format(
