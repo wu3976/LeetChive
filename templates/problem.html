@@ -12,6 +12,7 @@
         <textarea v-model.lazy="msg" class="codeArea" id="t1" rows="30" cols="80"></textarea><br>
         <button v-bind:class="submitButtonClass" v-on:click="clickSubmit">Submit</button>
         <button v-bind:class="hintButtonClass" v-on:click="clickHint">Hint</button>
+        <span class="text">[[ uploading ]]</span>
         <table class="testcases">
             <tr class="row" v-for="testCase in testCases" v-html="genRow(testCase)"></tr>
         </table>

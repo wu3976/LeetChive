@@ -1,5 +1,5 @@
 from pymysql.connections import Cursor
-from config import dbname, dbhost, dbuser, dbpwd
+from config import dbname, dbhost, dbuser, dbpwd, modifiable_cols
 
 
 def db_prep(cur: Cursor) -> None:
@@ -7,23 +7,16 @@ def db_prep(cur: Cursor) -> None:
     cur.execute("use {};".format(dbname))
     print(cur.fetchall())
     cur.execute(
-        "create table if not exists problems({pID}, {problemName}, {displayedName}, {promptHtml}, {primaryKey});".format(
+        "create table if not exists problems({pID}, {problemName}, {displayedName}, {promptHtml}, \
+        {starterCode}, {hint}, {testCases}, {primaryKey});".format(
             pID="pID int not null auto_increment",
-            problemName="problemName varchar(50) not null",
+            problemName="problemName varchar(50) unique not null",
             displayedName="displayedName varchar(50) not null",
-            promptHtml="promptHtml varchar(2500) not null",
+            promptHtml="promptHtml text not null",
+            starterCode="starterCode text not null",
+            hint="hint text not null",
+            testCases="testCases text not null",
             primaryKey="primary key (pID)"
-        )
-    )
-    print(cur.fetchall())
-    cur.execute(
-        "create table if not exists startercodes({id}, {pID}, {starterCode}, {hint}, {primaryKey}, {foreign});".format(
-            id="id int not null auto_increment",
-            pID="pID int not null",
-            starterCode="starterCode varchar(2500)",
-            hint="hint varchar(2500)",
-            primaryKey="primary key (id)",
-            foreign="foreign key (pID) references problems(pID)"
         )
     )
     print(cur.fetchall())
@@ -31,24 +24,28 @@ def db_prep(cur: Cursor) -> None:
 
 # add a problem to the database
 def db_add_problem(cur: Cursor, problemName: str, displayedName: str,
-                   promptHtml: str, starterCode: str="", hint: str="") -> None:
-    cur.execute(
-        "insert into problems(problemName, displayedName, promptHtml)"
-        + " values(\"{problemName}\", \"{displayedName}\", \"{promptHtml}\");".format(
+                   promptHtml: str, starterCode: str="",
+                   hint: str="", testCases: str="") -> None:
+    print("insert into problems(problemName, displayedName, promptHtml, starterCode, \
+        hint, testCases)"
+        + " values(\"{problemName}\", \"{displayedName}\", \"{promptHtml}\", \"{starterCode}\", \"{hint}\", \"{testCases}\");".format(
             problemName=problemName,
             displayedName=displayedName,
-            promptHtml=promptHtml
-        )
-    )
-    print(cur.fetchall())
-    cur.execute("select pID from problems order by pID desc;")
-    pID = cur.fetchall()[0][0]
-    cur.execute(
-        "insert into startercodes(pID, starterCode, hint)"
-        + " values({pID}, \"{starterCode}\", \"{hint}\");".format(
-            pID=pID,
+            promptHtml=promptHtml,
             starterCode=starterCode,
-            hint=hint
+            hint=hint,
+            testCases=testCases
+        ))
+    cur.execute(
+        "insert into problems(problemName, displayedName, promptHtml, starterCode, \
+        hint, testCases)"
+        + " values(\"{problemName}\", \"{displayedName}\", \"{promptHtml}\", \"{starterCode}\", \"{hint}\", \"{testCases}\");".format(
+            problemName=problemName,
+            displayedName=displayedName,
+            promptHtml=promptHtml,
+            starterCode=starterCode,
+            hint=hint,
+            testCases=testCases
         )
     )
     print(cur.fetchall())
@@ -85,3 +82,15 @@ def db_fetch(cur: Cursor, ele: str, db:str, pID: int) -> str:
         pID=str(pID)
     ))
     return cur.fetchall()[0][0]
+
+
+def db_setCol(cur: Cursor, at: str, datas: dict) -> None:
+    for k in datas.keys():
+        if k not in modifiable_cols:
+            raise "Column " + str(k) + " is unmodifiable"
+        print(datas)
+    for k in datas.keys():
+        cur.execute("update problems set {col}=\"{val}\" where problemName=\"{pname}\";".format(
+            col=k, val=datas[k], pname=at
+        ))
+        cur.fetchall()

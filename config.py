@@ -3,6 +3,7 @@ dbname = "leetchive"
 dbhost = "localhost"
 dbuser = "root"
 dbpwd = ""
+modifiable_cols = ["starterCode", "hint", "testCases"]
 
 # -----server config----- #
 host = "localhost"

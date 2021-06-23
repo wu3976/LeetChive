@@ -24,25 +24,30 @@ var d1 = new Vue({
         testCases: [],
         msg: "",
         hint: "",
-        pID: ""
+        pID: "",
+        uploading: ""
     },
     methods: {
         clickSubmit(event) {
+            this.uploading = "submitting answer...";
             let xhttp = new XMLHttpRequest();
             xhttp.open("POST", `/api/submit/${this.pID}`);
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState === 4 && xhttp.status === 200){
                     this.testCases = JSON.parse(xhttp.responseText);
+                    this.uploading = "";
                 }
             };
             xhttp.send(this.msg);
         },
         clickHint(event) {
+            this.uploading = "getting hint...";
             let xhttp = new XMLHttpRequest();
             xhttp.open("GET", `/api/getHint/${this.pID}`);
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState === 4 && xhttp.status === 200){
                     this.hint = xhttp.responseText;
+                    this.uploading = "";
                 }
             };
             xhttp.send();
